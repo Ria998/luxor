@@ -1,11 +1,17 @@
 import Bid from "./Bid";
 import Button from "../components/ui/Button";
 import { BidType, CollectionType } from "../types/types";
-import { sharedStylesButtons } from "../styles/sharedStyles";
 
 interface CollectionProps {
   data: CollectionType;
 }
+
+export const sharedStylesButtons = {
+  buttonStyle: "py-1 rounded text-[14px]",
+  buttonContStyle: "flex flex-col gap-1.5 w-[117px]",
+  collectionButtonStyle: "bg-slate-800 hover:bg-slate-600 ",
+  bidButtonStyle: "bg-slate-700 hover:bg-slate-600",
+};
 
 export const Collection = ({ data }: CollectionProps) => {
   return (

@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { CollectionType } from "../types/types";
 import Collection from "./Collection";
 import Button from "../components/ui/Button";
-import { sharedStylesButtons } from "../styles/sharedStyles";
+import { sharedStylesButtons } from "./Collection";
 
 export const Collections = () => {
   const [collections, setCollections] = useState([]);

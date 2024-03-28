@@ -1,6 +1,6 @@
 import { BidType } from "../types/types";
 import Button from "../components/ui/Button";
-import { sharedStylesButtons } from "../styles/sharedStyles";
+import { sharedStylesButtons } from "./Collection";
 
 interface BidProps {
   data: BidType;
