@@ -1,11 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
 import { BidType, CollectionType } from "../types/types";
+import Button from "../components/ui/Button";
 
 export const Collections = () => {
   const [collections, setCollections] = useState([]);
 
   const fetchCollections = useCallback(async () => {
     try {
+      /*
       const response = await fetch("/api/collections");
 
       if (!response.ok) throw new Error("Something went wrong!");
@@ -13,6 +15,13 @@ export const Collections = () => {
       const data = await response.json();
 
       setCollections(data);
+      */
+
+      setCollections(
+        JSON.parse(
+          `[{"id":1,"name":"x1","description":"x1 desc","quantity":2,"price":"122.21","bids":[{"id":3,"collection_id":1,"price":"121.12","user_id":1,"status":1},{"id":4,"collection_id":1,"price":"133.91","user_id":2,"status":1}]},{"id":2,"name":"x2","description":"x2 desc","quantity":3,"price":"144.12","bids":[{"id":5,"collection_id":2,"price":"155.92","user_id":1,"status":2}]}]`
+        )
+      );
     } catch (error) {
       // setError(error instanceof Error ? error.message : String(error));
     }
@@ -29,12 +38,12 @@ export const Collections = () => {
 
   return (
     <>
-      <button
-        type="button"
+      <Button
         className={`block mx-auto mb-6 px-4 py-2 rounded ${bidButtonStyle}`}
       >
         Add new Collection
-      </button>
+      </Button>
+
       <div className="flex flex-col gap-6">
         {collections.map((data: CollectionType, i) => (
           <section className="bg-slate-700 px-6 py-4 rounded" key={data.id}>
@@ -57,24 +66,15 @@ export const Collections = () => {
               </div>
 
               <div className={buttonContStyle}>
-                <button
-                  type="button"
-                  className={`${buttonStyle} ${collectionButtonStyle}`}
-                >
+                <Button className={`${buttonStyle} ${collectionButtonStyle}`}>
                   EDIT
-                </button>
-                <button
-                  type="button"
-                  className={`${buttonStyle} ${collectionButtonStyle}`}
-                >
+                </Button>
+                <Button className={`${buttonStyle} ${collectionButtonStyle}`}>
                   DELETE
-                </button>
-                <button
-                  type="button"
-                  className={`${buttonStyle} ${collectionButtonStyle}`}
-                >
+                </Button>
+                <Button className={`${buttonStyle} ${collectionButtonStyle}`}>
                   PLACE BID
-                </button>
+                </Button>
               </div>
             </header>
 
@@ -101,34 +101,18 @@ export const Collections = () => {
                         </p>
                       </div>
                       <div className={buttonContStyle}>
-                        <button
-                          type="button"
-                          className={`${buttonStyle} ${bidButtonStyle}`}
-                        >
+                        <Button className={`${buttonStyle} ${bidButtonStyle}`}>
                           ACCEPT
-                        </button>
-
-                        <button
-                          type="button"
-                          className={`${buttonStyle} ${bidButtonStyle}`}
-                        >
+                        </Button>
+                        <Button className={`${buttonStyle} ${bidButtonStyle}`}>
                           REJECT
-                        </button>
-                      </div>
-                      <div className={buttonContStyle}>
-                        <button
-                          type="button"
-                          className={`${buttonStyle} ${bidButtonStyle}`}
-                        >
+                        </Button>
+                        <Button className={`${buttonStyle} ${bidButtonStyle}`}>
                           EDIT
-                        </button>
-
-                        <button
-                          type="button"
-                          className={`${buttonStyle} ${bidButtonStyle}`}
-                        >
+                        </Button>
+                        <Button className={`${buttonStyle} ${bidButtonStyle}`}>
                           CANCEL
-                        </button>
+                        </Button>
                       </div>
                     </div>
                   </section>
