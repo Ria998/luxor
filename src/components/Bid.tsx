@@ -5,9 +5,10 @@ import { sharedStylesButtons } from "./Collection";
 interface BidProps {
   data: BidType;
   i: number;
+  deleteBidHandler: (id: number, collection_id: number) => void;
 }
 
-export const Bid = ({ data, i }: BidProps) => {
+export const Bid = ({ data, i, deleteBidHandler }: BidProps) => {
   return (
     <section className="bg-slate-800 px-5 py-4 rounded">
       <div className="flex justify-between">
@@ -39,6 +40,11 @@ export const Bid = ({ data, i }: BidProps) => {
             EDIT
           </Button>
           <Button
+            clickHandler={deleteBidHandler.bind(
+              null,
+              data.id,
+              data.collection_id
+            )}
             className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.bidButtonStyle}`}
           >
             CANCEL

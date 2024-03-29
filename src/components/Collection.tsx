@@ -4,6 +4,8 @@ import { BidType, CollectionType } from "../types/types";
 
 interface CollectionProps {
   data: CollectionType;
+  deleteCollectionHandler: (id: number) => void;
+  deleteBidHandler: (id: number, collection_id: number) => void;
 }
 
 export const sharedStylesButtons = {
@@ -13,7 +15,11 @@ export const sharedStylesButtons = {
   bidButtonStyle: "bg-slate-700 hover:bg-slate-600",
 };
 
-export const Collection = ({ data }: CollectionProps) => {
+export const Collection = ({
+  data,
+  deleteBidHandler,
+  deleteCollectionHandler,
+}: CollectionProps) => {
   return (
     <section className="bg-slate-700 px-6 py-4 rounded">
       <header className="flex justify-between">
@@ -39,6 +45,7 @@ export const Collection = ({ data }: CollectionProps) => {
             EDIT
           </Button>
           <Button
+            clickHandler={deleteCollectionHandler.bind(null, data.id)}
             className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.collectionButtonStyle}`}
           >
             DELETE
@@ -57,7 +64,12 @@ export const Collection = ({ data }: CollectionProps) => {
         </header>
         <div className="flex flex-col gap-4 mt-1">
           {data.bids.map((data: BidType, i: number) => (
-            <Bid data={data} i={i} key={data.id} />
+            <Bid
+              data={data}
+              i={i}
+              key={data.id}
+              deleteBidHandler={deleteBidHandler}
+            />
           ))}
         </div>
       </section>

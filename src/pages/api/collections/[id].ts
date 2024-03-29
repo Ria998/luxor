@@ -1,20 +1,21 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../prisma/client";
+import prisma from "../../../../prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === "GET") {
+  const { id } = req.query;
+
+  if (req.method === "DELETE") {
     try {
-      const data = await prisma.collections.findMany<{}>({
-        include: {
-          bids: true,
+      const data = await prisma.collections.delete({
+        where: {
+          id: Number(id),
         },
       });
       return res.status(200).json(data);
     } catch (error) {
-      console.log(error);
       return res.status(500).json(error);
     }
   }
