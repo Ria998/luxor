@@ -3,9 +3,19 @@ import { BidType, CollectionType } from "../types/types";
 import Collection from "./Collection";
 import Button from "../components/ui/Button";
 import { sharedStylesButtons } from "./Collection";
+import Modal from "./modal/Modal";
+import AddCollection from "./forms/AddCollection";
+import AddBid from "./forms/AddBid";
 
 export const Collections = () => {
-  const [collections, setCollections] = useState([]);
+  const [collections, setCollections] = useState<CollectionType[]>([]);
+
+  const [modal, setModal] = useState(false);
+  const [modalContent, setModalContent] = useState<JSX.Element>(<></>);
+
+  const modalCloseHandler = () => {
+    setModal(false);
+  };
 
   const fetchCollections = useCallback(async () => {
     try {
@@ -19,6 +29,7 @@ export const Collections = () => {
 
       setCollections(data);
 */
+      //
 
       setCollections(
         JSON.parse(
@@ -33,6 +44,91 @@ export const Collections = () => {
   useEffect(() => {
     fetchCollections();
   }, [fetchCollections]);
+
+  const addCollectionHandler = async (
+    name: string,
+    description: string,
+    quantity: string,
+    price: string
+  ) => {
+    try {
+      const response = await fetch(`/api/collections`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          description,
+          quantity: Number(quantity),
+          price: Number(price),
+        }),
+      });
+
+      if (response.status !== 201)
+        throw new Error("Error creating collection. Please try again.");
+
+      const data = await response.json();
+
+      const collection: CollectionType = { ...data };
+      collection.bids = [];
+
+      setCollections((previous) => {
+        const shallowClone = [...previous];
+        shallowClone.unshift(collection);
+        return shallowClone;
+      });
+      setModal(false);
+    } catch (error) {
+      // setError(error instanceof Error ? error.message : String(error));
+    }
+  };
+
+  const addBidHandler = async (id: number, price: string) => {
+    console.log("addBidHandler id", id);
+    console.log("addBidHandler price", price);
+
+    try {
+      const response = await fetch(`/api/bids`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          collection_id: id,
+          price: Number(price),
+        }),
+      });
+
+      if (response.status !== 201)
+        throw new Error("Error creating bid. Please try again.");
+
+      const data: BidType = await response.json();
+
+      console.log("addBidHandler data: ", data);
+
+      setCollections((previous) => {
+        const index = previous.findIndex(
+          (el: CollectionType) => el.id === data.collection_id
+        );
+
+        if (index === -1) return previous;
+
+        const shallowClone = [...previous];
+
+        const bidsClone = [...shallowClone[index].bids];
+
+        bidsClone.unshift(data);
+
+        shallowClone[index].bids = bidsClone;
+
+        return shallowClone;
+      });
+      setModal(false);
+    } catch (error) {
+      // setError(error instanceof Error ? error.message : String(error));
+    }
+  };
 
   const deleteCollectionHandler = async (id: number) => {
     try {
@@ -105,23 +201,43 @@ export const Collections = () => {
     }
   };
 
+  const addCollectionModal = () => {
+    setModalContent(<AddCollection onAddCollection={addCollectionHandler} />);
+    setModal(true);
+  };
+
+  const addBidModal = (id: number) => {
+    setModalContent(<AddBid onAddBid={addBidHandler.bind(null, id)} />);
+    setModal(true);
+  };
+
   return (
     <>
-      <Button
-        className={`block mx-auto mb-6 px-4 py-2 rounded ${sharedStylesButtons.bidButtonStyle}`}
-      >
-        Add new Collection
-      </Button>
+      {modal && (
+        <Modal isOpen={modal} handleClose={modalCloseHandler}>
+          {modalContent}
+        </Modal>
+      )}
 
-      <div className="flex flex-col gap-6">
-        {collections.map((data: CollectionType, i) => (
-          <Collection
-            data={data}
-            key={data.id}
-            deleteCollectionHandler={deleteCollectionHandler}
-            deleteBidHandler={deleteBidHandler}
-          />
-        ))}
+      <div>
+        <Button
+          clickHandler={addCollectionModal}
+          className={`block mx-auto mb-6 px-4 py-2 rounded ${sharedStylesButtons.bidButtonStyle}`}
+        >
+          Add new Collection
+        </Button>
+
+        <div className="flex flex-col gap-6">
+          {collections.map((data: CollectionType, i) => (
+            <Collection
+              data={data}
+              key={data.id}
+              onAddBid={addBidModal}
+              deleteCollectionHandler={deleteCollectionHandler}
+              deleteBidHandler={deleteBidHandler}
+            />
+          ))}
+        </div>
       </div>
     </>
   );

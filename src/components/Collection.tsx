@@ -2,12 +2,6 @@ import Bid from "./Bid";
 import Button from "../components/ui/Button";
 import { BidType, CollectionType } from "../types/types";
 
-interface CollectionProps {
-  data: CollectionType;
-  deleteCollectionHandler: (id: number) => void;
-  deleteBidHandler: (id: number, collection_id: number) => void;
-}
-
 export const sharedStylesButtons = {
   buttonStyle: "py-1 rounded text-[14px]",
   buttonContStyle: "flex flex-col gap-1.5 w-[117px]",
@@ -15,10 +9,18 @@ export const sharedStylesButtons = {
   bidButtonStyle: "bg-slate-700 hover:bg-slate-600",
 };
 
+interface CollectionProps {
+  data: CollectionType;
+  deleteCollectionHandler: (id: number) => void;
+  deleteBidHandler: (id: number, collection_id: number) => void;
+  onAddBid: (id: number) => void;
+}
+
 export const Collection = ({
   data,
   deleteBidHandler,
   deleteCollectionHandler,
+  onAddBid,
 }: CollectionProps) => {
   return (
     <section className="bg-slate-700 px-6 py-4 rounded">
@@ -52,6 +54,7 @@ export const Collection = ({
           </Button>
           <Button
             className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.collectionButtonStyle}`}
+            clickHandler={onAddBid.bind(null, data.id)}
           >
             PLACE BID
           </Button>

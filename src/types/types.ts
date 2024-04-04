@@ -12,5 +12,5 @@ export interface CollectionType {
   description: string;
   price: string;
   quantity: number;
-  bids: BidType[];
+  bids: BidType[] | [];
 }

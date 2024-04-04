@@ -8,11 +8,25 @@ export default async function handler(
   if (req.method === "GET") {
     try {
       const data = await prisma.collections.findMany<{}>({
+        orderBy: [
+          {
+            id: "desc",
+          },
+        ],
         include: {
           bids: true,
         },
       });
       return res.status(200).json(data);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  } else if (req.method === "POST") {
+    try {
+      const data = await prisma.collections.create({
+        data: req.body,
+      });
+      return res.status(201).json(data);
     } catch (error) {
       return res.status(500).json(error);
     }
