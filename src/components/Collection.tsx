@@ -14,6 +14,7 @@ interface CollectionProps {
   deleteCollectionHandler: (id: number) => void;
   deleteBidHandler: (id: number, collection_id: number) => void;
   onAddBid: (id: number) => void;
+  onEditCollection: (data: CollectionType) => void;
 }
 
 export const Collection = ({
@@ -21,6 +22,7 @@ export const Collection = ({
   deleteBidHandler,
   deleteCollectionHandler,
   onAddBid,
+  onEditCollection,
 }: CollectionProps) => {
   return (
     <section className="bg-slate-700 px-6 py-4 rounded">
@@ -43,6 +45,7 @@ export const Collection = ({
         <div className={sharedStylesButtons.buttonContStyle}>
           <Button
             className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.collectionButtonStyle}`}
+            clickHandler={onEditCollection.bind(null, data)}
           >
             EDIT
           </Button>

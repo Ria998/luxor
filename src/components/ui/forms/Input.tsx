@@ -4,9 +4,17 @@ interface InputProps {
   name: string;
   onChange: (event: React.FormEvent<HTMLInputElement>) => void;
   decimals?: boolean;
+  value?: string | number;
 }
 
-export const Input = ({ type, id, name, onChange, decimals }: InputProps) => {
+export const Input = ({
+  type,
+  id,
+  name,
+  onChange,
+  decimals,
+  value,
+}: InputProps) => {
   return (
     <input
       className="text-black w-[212px] px-1"
@@ -15,6 +23,7 @@ export const Input = ({ type, id, name, onChange, decimals }: InputProps) => {
       name={name}
       onChange={onChange}
       step={decimals ? "any" : ""}
+      value={value}
     />
   );
 };

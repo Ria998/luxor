@@ -5,6 +5,7 @@ import Button from "../components/ui/Button";
 import { sharedStylesButtons } from "./Collection";
 import Modal from "./modal/Modal";
 import AddCollection from "./forms/AddCollection";
+import EditCollection from "./forms/EditCollection";
 import AddBid from "./forms/AddBid";
 
 export const Collections = () => {
@@ -84,10 +85,55 @@ export const Collections = () => {
     }
   };
 
-  const addBidHandler = async (id: number, price: string) => {
-    console.log("addBidHandler id", id);
-    console.log("addBidHandler price", price);
+  const editCollectionHandler = async (
+    id: number,
+    name: string,
+    description: string,
+    quantity: number,
+    price: string
+  ) => {
+    try {
+      const response = await fetch(`/api/collections/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          description,
+          quantity: quantity,
+          price: Number(price),
+        }),
+      });
 
+      if (!response.ok)
+        throw new Error("Error editing collection. Please try again.");
+
+      const data = await response.json();
+
+      setCollections((previous) => {
+        const shallowClone = [...previous];
+
+        const index = shallowClone.findIndex(
+          (el: CollectionType) => el.id === data.id
+        );
+
+        if (index === -1) return previous;
+
+        shallowClone[index].name = data.name;
+        shallowClone[index].price = data.price;
+        shallowClone[index].quantity = data.quantity;
+        shallowClone[index].description = data.description;
+
+        return shallowClone;
+      });
+      setModal(false);
+    } catch (error) {
+      // setError(error instanceof Error ? error.message : String(error));
+    }
+  };
+
+  const addBidHandler = async (id: number, price: string) => {
     try {
       const response = await fetch(`/api/bids`, {
         method: "POST",
@@ -104,8 +150,6 @@ export const Collections = () => {
         throw new Error("Error creating bid. Please try again.");
 
       const data: BidType = await response.json();
-
-      console.log("addBidHandler data: ", data);
 
       setCollections((previous) => {
         const index = previous.findIndex(
@@ -211,6 +255,13 @@ export const Collections = () => {
     setModal(true);
   };
 
+  const editCollectionModal = (data: CollectionType) => {
+    setModalContent(
+      <EditCollection onEditCollection={editCollectionHandler} values={data} />
+    );
+    setModal(true);
+  };
+
   return (
     <>
       {modal && (
@@ -233,6 +284,7 @@ export const Collections = () => {
               data={data}
               key={data.id}
               onAddBid={addBidModal}
+              onEditCollection={editCollectionModal}
               deleteCollectionHandler={deleteCollectionHandler}
               deleteBidHandler={deleteBidHandler}
             />
