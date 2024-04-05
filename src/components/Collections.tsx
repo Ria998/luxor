@@ -273,9 +273,9 @@ export const Collections = () => {
       <div>
         <Button
           clickHandler={addCollectionModal}
-          className={`block mx-auto mb-6 px-4 py-2 rounded ${sharedStylesButtons.bidButtonStyle}`}
+          className={`${sharedStylesButtons.buttonStyle} block mx-auto mb-6 px-4 py-2 text-[16px]`}
         >
-          Add new Collection
+          New Collection
         </Button>
 
         <div className="flex flex-col gap-6">

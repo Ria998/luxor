@@ -1,12 +1,13 @@
 import Bid from "./Bid";
 import Button from "../components/ui/Button";
 import { BidType, CollectionType } from "../types/types";
+import Image from "next/image";
 
 export const sharedStylesButtons = {
-  buttonStyle: "py-1 rounded text-[14px]",
+  buttonStyle: "py-1 rounded text-[14px] bg-indigo-700 hover:bg-indigo-600",
   buttonContStyle: "flex flex-col gap-1.5 w-[117px]",
-  collectionButtonStyle: "bg-slate-800 hover:bg-slate-600 ",
-  bidButtonStyle: "bg-slate-700 hover:bg-slate-600",
+  buttonRed: "bg-red-700 hover:bg-red-600",
+  buttonIconCenter: "flex justify-center",
 };
 
 interface CollectionProps {
@@ -25,7 +26,7 @@ export const Collection = ({
   onEditCollection,
 }: CollectionProps) => {
   return (
-    <section className="bg-slate-700 px-6 py-4 rounded">
+    <section className="bg-indigo-900 px-6 py-4 rounded">
       <header className="flex justify-between">
         <div>
           <p>
@@ -44,27 +45,39 @@ export const Collection = ({
 
         <div className={sharedStylesButtons.buttonContStyle}>
           <Button
-            className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.collectionButtonStyle}`}
+            className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.buttonIconCenter}`}
             clickHandler={onEditCollection.bind(null, data)}
           >
-            EDIT
+            <Image
+              src="/edit.svg"
+              alt="close"
+              width={23}
+              height={23}
+              priority
+            />
           </Button>
           <Button
             clickHandler={deleteCollectionHandler.bind(null, data.id)}
-            className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.collectionButtonStyle}`}
+            className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.buttonRed} ${sharedStylesButtons.buttonIconCenter}`}
           >
-            DELETE
+            <Image
+              src="/delete.svg"
+              alt="close"
+              width={25}
+              height={25}
+              priority
+            />
           </Button>
           <Button
-            className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.collectionButtonStyle}`}
+            className={sharedStylesButtons.buttonStyle}
             clickHandler={onAddBid.bind(null, data.id)}
           >
-            PLACE BID
+            New Bid
           </Button>
         </div>
       </header>
 
-      <section className="bg-slate-600 px-5 py-4 mt-3 rounded">
+      <section className="bg-indigo-700 px-5 py-4 mt-3 rounded">
         <header>
           <p className="font-bold">Bids:</p>
         </header>

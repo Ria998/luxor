@@ -1,6 +1,7 @@
 import { BidType } from "../types/types";
 import Button from "../components/ui/Button";
 import { sharedStylesButtons } from "./Collection";
+import Image from "next/image";
 
 interface BidProps {
   data: BidType;
@@ -10,7 +11,7 @@ interface BidProps {
 
 export const Bid = ({ data, i, deleteBidHandler }: BidProps) => {
   return (
-    <section className="bg-slate-800 px-5 py-4 rounded">
+    <section className="bg-indigo-900 px-5 py-4 rounded">
       <div className="flex justify-between">
         <div>
           <p>Bid #{i + 1}</p>
@@ -22,22 +23,20 @@ export const Bid = ({ data, i, deleteBidHandler }: BidProps) => {
           </p>
         </div>
         <div className={sharedStylesButtons.buttonContStyle}>
-          <Button
-            className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.bidButtonStyle}`}
-          >
-            ACCEPT
-          </Button>
-          <Button
-            className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.bidButtonStyle}`}
-          >
-            REJECT
-          </Button>
+          <Button className={sharedStylesButtons.buttonStyle}>ACCEPT</Button>
+          <Button className={sharedStylesButtons.buttonStyle}>REJECT</Button>
         </div>
         <div className={sharedStylesButtons.buttonContStyle}>
           <Button
-            className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.bidButtonStyle}`}
+            className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.buttonIconCenter}`}
           >
-            EDIT
+            <Image
+              src="/edit.svg"
+              alt="close"
+              width={23}
+              height={23}
+              priority
+            />
           </Button>
           <Button
             clickHandler={deleteBidHandler.bind(
@@ -45,9 +44,15 @@ export const Bid = ({ data, i, deleteBidHandler }: BidProps) => {
               data.id,
               data.collection_id
             )}
-            className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.bidButtonStyle}`}
+            className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.buttonRed} ${sharedStylesButtons.buttonIconCenter}`}
           >
-            CANCEL
+            <Image
+              src="/delete.svg"
+              alt="close"
+              width={25}
+              height={25}
+              priority
+            />
           </Button>
         </div>
       </div>
