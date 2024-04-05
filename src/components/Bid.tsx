@@ -19,7 +19,7 @@ export const Bid = ({ data, i, deleteBidHandler }: BidProps) => {
             Price: $<span className="font-bold">{data.price}</span>
           </p>
           <p>
-            Status: <span className="font-bold">{data.status}</span>
+            Status: <span className="font-bold">{data.status_id}</span>
           </p>
         </div>
         <div className={sharedStylesButtons.buttonContStyle}>

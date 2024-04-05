@@ -28,13 +28,15 @@ export const Collections = () => {
 
       const data = await response.json();
 
+      console.log("data string", "=====", JSON.stringify(data));
+
       setCollections(data);
 */
       //
 
       setCollections(
         JSON.parse(
-          `[{"id":1,"name":"x1","description":"x1 desc","quantity":2,"price":"122.21","bids":[{"id":3,"collection_id":1,"price":"121.12","user_id":1,"status":1},{"id":4,"collection_id":1,"price":"133.91","user_id":2,"status":1}]},{"id":2,"name":"x2","description":"x2 desc","quantity":3,"price":"144.12","bids":[{"id":5,"collection_id":2,"price":"155.92","user_id":1,"status":2}]}]`
+          `[{"id":2,"name":"Rare Jerseys","description":"Rare Jerseys","quantity":23,"price":"143.29","bids":[{"id":3,"collection_id":2,"price":"135","user_id":1,"status_id":1},{"id":4,"collection_id":2,"price":"146.23","user_id":2,"status_id":1}]},{"id":1,"name":"Special Antiques","description":"Special Antiques","quantity":21,"price":"112.12","bids":[{"id":1,"collection_id":1,"price":"182.12","user_id":1,"status_id":1},{"id":2,"collection_id":1,"price":"172","user_id":2,"status_id":1}]}]`
         )
       );
     } catch (error) {
