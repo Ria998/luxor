@@ -23,8 +23,16 @@ export const Bid = ({ data, i, deleteBidHandler }: BidProps) => {
           </p>
         </div>
         <div className={sharedStylesButtons.buttonContStyle}>
-          <Button className={sharedStylesButtons.buttonStyle}>ACCEPT</Button>
-          <Button className={sharedStylesButtons.buttonStyle}>REJECT</Button>
+          <Button
+            className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.buttonGreen}`}
+          >
+            ACCEPT
+          </Button>
+          <Button
+            className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.buttonRed}`}
+          >
+            REJECT
+          </Button>
         </div>
         <div className={sharedStylesButtons.buttonContStyle}>
           <Button

@@ -4,9 +4,11 @@ import { BidType, CollectionType } from "../types/types";
 import Image from "next/image";
 
 export const sharedStylesButtons = {
-  buttonStyle: "py-1 rounded text-[14px] bg-indigo-700 hover:bg-indigo-600",
-  buttonContStyle: "flex flex-col gap-1.5 w-[117px]",
+  buttonStyle:
+    "py-1 rounded text-[14px] bg-indigo-700 hover:bg-indigo-600 font-medium",
+  buttonContStyle: "flex flex-col gap-1.5 w-[100px]",
   buttonRed: "bg-red-700 hover:bg-red-600",
+  buttonGreen: "bg-green-700 hover:bg-green-600",
   buttonIconCenter: "flex justify-center",
 };
 

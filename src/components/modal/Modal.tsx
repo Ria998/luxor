@@ -31,10 +31,11 @@ export const Modal = ({ children, isOpen, handleClose }: ModalProps) => {
     <ReactPortal wrapperId="react-portal-modal-container">
       <>
         <div className="fixed top-0 left-0 w-screen h-screen z-30 bg-neutral-800 opacity-50" />
-        <div className="fixed rounded z-40 overflow-hidden bg-indigo-900 w-[600px] left-1/2 ml-[-300px] top-[10%] pt-3 pb-20 px-3">
+        <div className="fixed rounded z-40 overflow-hidden bg-neutral-800 bg-opacity-90 w-[600px] left-1/2 ml-[-300px] top-[10%] pt-3 pb-20 px-3">
           <div className="flex flex-row-reverse mb-9">
             <button onClick={handleClose}>
               <Image
+                className="opacity-90	hover:opacity-100"
                 src="/close.svg"
                 alt="close"
                 width={25}
