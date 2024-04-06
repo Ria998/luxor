@@ -36,7 +36,7 @@ export const Collections = () => {
 
       setCollections(
         JSON.parse(
-          `[{"id":2,"name":"Rare Jerseys","description":"Rare Jerseys","quantity":23,"price":"143.29","bids":[{"id":3,"collection_id":2,"price":"135","user_id":1,"status_id":1},{"id":4,"collection_id":2,"price":"146.23","user_id":2,"status_id":1}]},{"id":1,"name":"Special Antiques","description":"Special Antiques","quantity":21,"price":"112.12","bids":[{"id":1,"collection_id":1,"price":"182.12","user_id":1,"status_id":1},{"id":2,"collection_id":1,"price":"172","user_id":2,"status_id":1}]}]`
+          `[{"id":2,"name":"Antique Toys","description":"Antique Toys","quantity":21,"price":"111221","bids":[{"id":5,"collection_id":2,"price":"21314","status":"Pending","user_id":1},{"id":6,"collection_id":2,"price":"22323","status":"Pending","user_id":2}]},{"id":1,"name":"Rare Jerseys","description":"Rare Jerseys","quantity":136,"price":"123","bids":[{"id":3,"collection_id":1,"price":"133","status":"Pending","user_id":1},{"id":4,"collection_id":1,"price":"155","status":"Pending","user_id":2}]}]`
         )
       );
     } catch (error) {

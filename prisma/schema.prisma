@@ -11,8 +11,8 @@ model bids {
   id            Int         @id @default(autoincrement())
   collection_id Int         @default(autoincrement())
   price         Decimal     @db.Money
+  status        String      @default("Pending")
   user_id       Int         @default(autoincrement())
-  status_id     Int         @default(1)
   collection    collections @relation(fields: [collection_id], references: [id])
 }
 
@@ -25,7 +25,4 @@ model collections {
   bids        bids[]
 }
 
-model status {
-  id    Int    @id @default(autoincrement())
-  label String @default("Pending")
-}
+

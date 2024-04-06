@@ -2,7 +2,7 @@ export interface BidType {
   id: number;
   collection_id: number;
   price: string;
-  status_id: number;
+  status: string;
   user_id: number;
 }
 

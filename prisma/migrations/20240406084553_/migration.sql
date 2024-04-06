@@ -1,19 +1,10 @@
-/*
-  Warnings:
-
-  - You are about to drop the `Collections` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropTable
-DROP TABLE "Collections";
-
 -- CreateTable
 CREATE TABLE "bids" (
     "id" SERIAL NOT NULL,
     "collection_id" SERIAL NOT NULL,
     "price" MONEY NOT NULL,
+    "status" TEXT NOT NULL DEFAULT 'Pending',
     "user_id" SERIAL NOT NULL,
-    "status" INTEGER NOT NULL DEFAULT 1,
 
     CONSTRAINT "bids_pkey" PRIMARY KEY ("id")
 );
