@@ -1,21 +1,18 @@
-import { BidType, statusType } from "../types/types";
+import { useContext } from "react";
+import { Context } from "../store/ContextProvider";
+import { BidType } from "../types/types";
 import Button from "../components/ui/Button";
 import { sharedStylesButtons } from "./Collection";
 import Image from "next/image";
 
 interface BidProps {
   data: BidType;
-  onBidStatus: (id: number, collection_id: number, status: statusType) => void;
-  onDeleteBid: (id: number, collection_id: number) => void;
-  onEditBidModal: (id: number, price: string) => void;
 }
 
-export const Bid = ({
-  data,
-  onBidStatus,
-  onDeleteBid,
-  onEditBidModal,
-}: BidProps) => {
+export const Bid = ({ data }: BidProps) => {
+  const { editBidModalHandler, bidStatusHandler, deleteBidHandler } =
+    useContext(Context);
+
   return (
     <section
       className={`${
@@ -34,7 +31,7 @@ export const Bid = ({
         </div>
         <div className={sharedStylesButtons.buttonContStyle}>
           <Button
-            onClick={onBidStatus.bind(
+            onClick={bidStatusHandler.bind(
               null,
               data.id,
               data.collection_id,
@@ -46,7 +43,7 @@ export const Bid = ({
             ACCEPT
           </Button>
           <Button
-            onClick={onBidStatus.bind(
+            onClick={bidStatusHandler.bind(
               null,
               data.id,
               data.collection_id,
@@ -60,7 +57,7 @@ export const Bid = ({
         </div>
         <div className={sharedStylesButtons.buttonContStyle}>
           <Button
-            onClick={onEditBidModal.bind(null, data.id, data.price)}
+            onClick={editBidModalHandler.bind(null, data.id, data.price)}
             className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.buttonIconCenter}`}
           >
             <Image
@@ -72,7 +69,7 @@ export const Bid = ({
             />
           </Button>
           <Button
-            onClick={onDeleteBid.bind(null, data.id, data.collection_id)}
+            onClick={deleteBidHandler.bind(null, data.id, data.collection_id)}
             className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.buttonRed} ${sharedStylesButtons.buttonIconCenter}`}
           >
             <Image

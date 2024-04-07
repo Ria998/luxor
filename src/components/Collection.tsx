@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { Context } from "../store/ContextProvider";
 import Bid from "./Bid";
 import Button from "../components/ui/Button";
 import { BidType, CollectionType, statusType } from "../types/types";
@@ -14,23 +16,15 @@ export const sharedStylesButtons = {
 
 interface CollectionProps {
   data: CollectionType;
-  onDeleteCollection: (id: number, name: string) => void;
-  onDeleteBid: (id: number, collection_id: number) => void;
-  onAddBidModal: (id: number) => void;
-  onEditBidModal: (id: number, price: string) => void;
-  onBidStatus: (id: number, collection_id: number, status: statusType) => void;
-  onEditCollectionModal: (data: CollectionType) => void;
 }
 
-export const Collection = ({
-  data,
-  onDeleteBid,
-  onDeleteCollection,
-  onAddBidModal,
-  onEditBidModal,
-  onBidStatus,
-  onEditCollectionModal,
-}: CollectionProps) => {
+export const Collection = ({ data }: CollectionProps) => {
+  const {
+    editCollectionModalHandler,
+    addBidModalHandler,
+    deleteCollectionHandler,
+  } = useContext(Context);
+
   return (
     <section className="bg-indigo-900 px-6 py-4 rounded">
       <header className="flex justify-between">
@@ -52,7 +46,7 @@ export const Collection = ({
         <div className={sharedStylesButtons.buttonContStyle}>
           <Button
             className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.buttonIconCenter}`}
-            onClick={onEditCollectionModal.bind(null, data)}
+            onClick={editCollectionModalHandler.bind(null, data)}
           >
             <Image
               src="/edit.svg"
@@ -63,7 +57,7 @@ export const Collection = ({
             />
           </Button>
           <Button
-            onClick={onDeleteCollection.bind(null, data.id, data.name)}
+            onClick={deleteCollectionHandler.bind(null, data.id, data.name)}
             className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.buttonRed} ${sharedStylesButtons.buttonIconCenter}`}
           >
             <Image
@@ -76,7 +70,7 @@ export const Collection = ({
           </Button>
           <Button
             className={sharedStylesButtons.buttonStyle}
-            onClick={onAddBidModal.bind(null, data.id)}
+            onClick={addBidModalHandler.bind(null, data.id)}
           >
             New Bid
           </Button>
@@ -89,13 +83,7 @@ export const Collection = ({
         </header>
         <div className="flex flex-col gap-4 mt-1">
           {data.bids.map((data: BidType, i: number) => (
-            <Bid
-              data={data}
-              key={data.id}
-              onBidStatus={onBidStatus}
-              onDeleteBid={onDeleteBid}
-              onEditBidModal={onEditBidModal}
-            />
+            <Bid data={data} key={data.id} />
           ))}
         </div>
       </section>
