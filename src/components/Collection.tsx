@@ -1,6 +1,6 @@
 import Bid from "./Bid";
 import Button from "../components/ui/Button";
-import { BidType, CollectionType } from "../types/types";
+import { BidType, CollectionType, statusType } from "../types/types";
 import Image from "next/image";
 
 export const sharedStylesButtons = {
@@ -17,6 +17,7 @@ interface CollectionProps {
   deleteCollectionHandler: (id: number) => void;
   deleteBidHandler: (id: number, collection_id: number) => void;
   onAddBid: (id: number) => void;
+  onBidStatus: (id: number, collection_id: number, status: statusType) => void;
   onEditCollection: (data: CollectionType) => void;
 }
 
@@ -25,6 +26,7 @@ export const Collection = ({
   deleteBidHandler,
   deleteCollectionHandler,
   onAddBid,
+  onBidStatus,
   onEditCollection,
 }: CollectionProps) => {
   return (
@@ -89,6 +91,7 @@ export const Collection = ({
               data={data}
               i={i}
               key={data.id}
+              onBidStatus={onBidStatus}
               deleteBidHandler={deleteBidHandler}
             />
           ))}

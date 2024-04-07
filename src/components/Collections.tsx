@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { BidType, CollectionType } from "../types/types";
+import { BidType, CollectionType, statusType } from "../types/types";
 import Collection from "./Collection";
 import Button from "../components/ui/Button";
 import { sharedStylesButtons } from "./Collection";
@@ -20,7 +20,6 @@ export const Collections = () => {
 
   const fetchCollections = useCallback(async () => {
     try {
-      /*
       const response = await fetch("/api/collections");
 
       if (!response.ok)
@@ -31,14 +30,15 @@ export const Collections = () => {
       console.log("data string", "=====", JSON.stringify(data));
 
       setCollections(data);
-*/
-      //
 
+      //
+      /*
       setCollections(
         JSON.parse(
           `[{"id":2,"name":"Antique Toys","description":"Antique Toys","quantity":21,"price":"111221","bids":[{"id":5,"collection_id":2,"price":"21314","status":"Pending","user_id":1},{"id":6,"collection_id":2,"price":"22323","status":"Pending","user_id":2}]},{"id":1,"name":"Rare Jerseys","description":"Rare Jerseys","quantity":136,"price":"123","bids":[{"id":3,"collection_id":1,"price":"133","status":"Pending","user_id":1},{"id":4,"collection_id":1,"price":"155","status":"Pending","user_id":2}]}]`
         )
       );
+      */
     } catch (error) {
       // setError(error instanceof Error ? error.message : String(error));
     }
@@ -127,6 +127,58 @@ export const Collections = () => {
         shallowClone[index].quantity = data.quantity;
         shallowClone[index].description = data.description;
 
+        return shallowClone;
+      });
+      setModal(false);
+    } catch (error) {
+      // setError(error instanceof Error ? error.message : String(error));
+    }
+  };
+
+  const bidStatusHandler = async (
+    id: number,
+    collection_id: number,
+    status: statusType
+  ) => {
+    try {
+      const response = await fetch(`/api/bids/${id}/${collection_id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          status,
+        }),
+      });
+
+      if (!response.ok)
+        throw new Error("Error rejecting Bid. Please try again.");
+
+      const data = await response.json();
+
+      setCollections((previous) => {
+        const index = previous.findIndex(
+          (el: CollectionType) => el.id === data.collection_id
+        );
+
+        if (index === -1) return previous;
+
+        const shallowClone = [...previous];
+
+        const bidsClone = [...shallowClone[index].bids];
+
+        const indexBids = bidsClone.findIndex(
+          (el: BidType) => el.id === data.id
+        );
+
+        if (status === "Accepted") {
+          bidsClone.forEach((el) => {
+            el.status = "Rejected";
+          });
+        }
+
+        bidsClone[indexBids].status = data.status;
+        shallowClone[index].bids = bidsClone;
         return shallowClone;
       });
       setModal(false);
@@ -287,6 +339,7 @@ export const Collections = () => {
               key={data.id}
               onAddBid={addBidModal}
               onEditCollection={editCollectionModal}
+              onBidStatus={bidStatusHandler}
               deleteCollectionHandler={deleteCollectionHandler}
               deleteBidHandler={deleteBidHandler}
             />

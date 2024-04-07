@@ -1,4 +1,4 @@
-import { BidType } from "../types/types";
+import { BidType, statusType } from "../types/types";
 import Button from "../components/ui/Button";
 import { sharedStylesButtons } from "./Collection";
 import Image from "next/image";
@@ -6,12 +6,17 @@ import Image from "next/image";
 interface BidProps {
   data: BidType;
   i: number;
+  onBidStatus: (id: number, collection_id: number, status: statusType) => void;
   deleteBidHandler: (id: number, collection_id: number) => void;
 }
 
-export const Bid = ({ data, i, deleteBidHandler }: BidProps) => {
+export const Bid = ({ data, i, onBidStatus, deleteBidHandler }: BidProps) => {
   return (
-    <section className="bg-indigo-900 px-5 py-4 rounded">
+    <section
+      className={`${
+        data.status === "Accepted" ? "bg-green-900" : "bg-indigo-900"
+      } px-5 py-4 rounded`}
+    >
       <div className="flex justify-between">
         <div>
           <p>Bid #{i + 1}</p>
@@ -24,11 +29,23 @@ export const Bid = ({ data, i, deleteBidHandler }: BidProps) => {
         </div>
         <div className={sharedStylesButtons.buttonContStyle}>
           <Button
+            clickHandler={onBidStatus.bind(
+              null,
+              data.id,
+              data.collection_id,
+              "Accepted"
+            )}
             className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.buttonGreen}`}
           >
             ACCEPT
           </Button>
           <Button
+            clickHandler={onBidStatus.bind(
+              null,
+              data.id,
+              data.collection_id,
+              "Rejected"
+            )}
             className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.buttonRed}`}
           >
             REJECT

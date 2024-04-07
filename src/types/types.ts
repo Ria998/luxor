@@ -14,3 +14,5 @@ export interface CollectionType {
   quantity: number;
   bids: BidType[] | [];
 }
+
+export type statusType = "Pending" | "Accepted" | "Rejected";
