@@ -5,12 +5,17 @@ import Image from "next/image";
 
 interface BidProps {
   data: BidType;
-  i: number;
   onBidStatus: (id: number, collection_id: number, status: statusType) => void;
-  deleteBidHandler: (id: number, collection_id: number) => void;
+  onDeleteBid: (id: number, collection_id: number) => void;
+  onEditBidModal: (id: number, price: string) => void;
 }
 
-export const Bid = ({ data, i, onBidStatus, deleteBidHandler }: BidProps) => {
+export const Bid = ({
+  data,
+  onBidStatus,
+  onDeleteBid,
+  onEditBidModal,
+}: BidProps) => {
   return (
     <section
       className={`${
@@ -19,7 +24,7 @@ export const Bid = ({ data, i, onBidStatus, deleteBidHandler }: BidProps) => {
     >
       <div className="flex justify-between">
         <div>
-          <p>Bid #{i + 1}</p>
+          <p>Bid #{data.id}</p>
           <p>
             Price: $<span className="font-bold">{data.price}</span>
           </p>
@@ -29,23 +34,25 @@ export const Bid = ({ data, i, onBidStatus, deleteBidHandler }: BidProps) => {
         </div>
         <div className={sharedStylesButtons.buttonContStyle}>
           <Button
-            clickHandler={onBidStatus.bind(
+            onClick={onBidStatus.bind(
               null,
               data.id,
               data.collection_id,
               "Accepted"
             )}
+            disabled={data.status === "Accepted" ? true : false}
             className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.buttonGreen}`}
           >
             ACCEPT
           </Button>
           <Button
-            clickHandler={onBidStatus.bind(
+            onClick={onBidStatus.bind(
               null,
               data.id,
               data.collection_id,
               "Rejected"
             )}
+            disabled={data.status === "Rejected" ? true : false}
             className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.buttonRed}`}
           >
             REJECT
@@ -53,6 +60,7 @@ export const Bid = ({ data, i, onBidStatus, deleteBidHandler }: BidProps) => {
         </div>
         <div className={sharedStylesButtons.buttonContStyle}>
           <Button
+            onClick={onEditBidModal.bind(null, data.id, data.price)}
             className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.buttonIconCenter}`}
           >
             <Image
@@ -64,11 +72,7 @@ export const Bid = ({ data, i, onBidStatus, deleteBidHandler }: BidProps) => {
             />
           </Button>
           <Button
-            clickHandler={deleteBidHandler.bind(
-              null,
-              data.id,
-              data.collection_id
-            )}
+            onClick={onDeleteBid.bind(null, data.id, data.collection_id)}
             className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.buttonRed} ${sharedStylesButtons.buttonIconCenter}`}
           >
             <Image

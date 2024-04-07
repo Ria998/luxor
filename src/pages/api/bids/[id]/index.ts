@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../../prisma/client";
+import prisma from "../../../../../prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -14,6 +14,19 @@ export default async function handler(
           id: Number(id),
         },
       });
+      return res.status(200).json(data);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  } else if (req.method === "PATCH") {
+    try {
+      const data = await prisma.bids.update({
+        where: {
+          id: Number(id),
+        },
+        data: req.body,
+      });
+
       return res.status(200).json(data);
     } catch (error) {
       return res.status(500).json(error);

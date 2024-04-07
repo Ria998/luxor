@@ -7,6 +7,7 @@ import Modal from "./modal/Modal";
 import AddCollection from "./forms/AddCollection";
 import EditCollection from "./forms/EditCollection";
 import AddBid from "./forms/AddBid";
+import EditBid from "./forms/EditBid";
 
 export const Collections = () => {
   const [collections, setCollections] = useState<CollectionType[]>([]);
@@ -26,8 +27,6 @@ export const Collections = () => {
         throw new Error("Error retrieving collections. Please try again.");
 
       const data = await response.json();
-
-      console.log("data string", "=====", JSON.stringify(data));
 
       setCollections(data);
 
@@ -135,6 +134,49 @@ export const Collections = () => {
     }
   };
 
+  const editBidHandler = async (id: number, price: string) => {
+    try {
+      const response = await fetch(`/api/bids/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          price: Number(price),
+        }),
+      });
+
+      if (!response.ok) throw new Error("Error editing Bid. Please try again.");
+
+      const data = await response.json();
+
+      setCollections((previous) => {
+        const shallowClone = [...previous];
+
+        const index = shallowClone.findIndex(
+          (el: CollectionType) => el.id === data.collection_id
+        );
+
+        if (index === -1) return previous;
+
+        const bidsClone = [...shallowClone[index].bids];
+
+        const indexBids = bidsClone.findIndex(
+          (el: BidType) => el.id === data.id
+        );
+
+        bidsClone[indexBids].price = data.price;
+
+        shallowClone[index].bids = bidsClone;
+        return shallowClone;
+      });
+
+      setModal(false);
+    } catch (error) {
+      // setError(error instanceof Error ? error.message : String(error));
+    }
+  };
+
   const bidStatusHandler = async (
     id: number,
     collection_id: number,
@@ -228,7 +270,9 @@ export const Collections = () => {
     }
   };
 
-  const deleteCollectionHandler = async (id: number) => {
+  const deleteCollectionHandler = async (id: number, name: string) => {
+    if (!confirm(`Please confirm deletion of collection: "${name}"`)) return;
+
     try {
       const response = await fetch(`/api/collections/${id}`, {
         method: "DELETE",
@@ -261,6 +305,8 @@ export const Collections = () => {
   };
 
   const deleteBidHandler = async (id: number, collection_id: number) => {
+    if (!confirm(`Please confirm deletion of bid #${id}`)) return;
+
     try {
       const response = await fetch(`/api/bids/${id}`, { method: "DELETE" });
 
@@ -304,12 +350,19 @@ export const Collections = () => {
     setModal(true);
   };
 
-  const addBidModal = (id: number) => {
+  const addBidModalHandler = (id: number) => {
     setModalContent(<AddBid onAddBid={addBidHandler.bind(null, id)} />);
     setModal(true);
   };
 
-  const editCollectionModal = (data: CollectionType) => {
+  const editBidModalHandler = (id: number, price: string) => {
+    setModalContent(
+      <EditBid initialPrice={price} onEditBid={editBidHandler.bind(null, id)} />
+    );
+    setModal(true);
+  };
+
+  const editCollectionModalHandler = (data: CollectionType) => {
     setModalContent(
       <EditCollection onEditCollection={editCollectionHandler} values={data} />
     );
@@ -326,7 +379,7 @@ export const Collections = () => {
 
       <div>
         <Button
-          clickHandler={addCollectionModal}
+          onClick={addCollectionModal}
           className={`${sharedStylesButtons.buttonStyle} block mx-auto mb-6 px-4 py-2 text-[16px]`}
         >
           New Collection
@@ -337,11 +390,12 @@ export const Collections = () => {
             <Collection
               data={data}
               key={data.id}
-              onAddBid={addBidModal}
-              onEditCollection={editCollectionModal}
+              onAddBidModal={addBidModalHandler}
+              onEditCollectionModal={editCollectionModalHandler}
+              onEditBidModal={editBidModalHandler}
               onBidStatus={bidStatusHandler}
-              deleteCollectionHandler={deleteCollectionHandler}
-              deleteBidHandler={deleteBidHandler}
+              onDeleteCollection={deleteCollectionHandler}
+              onDeleteBid={deleteBidHandler}
             />
           ))}
         </div>

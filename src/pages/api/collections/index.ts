@@ -14,7 +14,11 @@ export default async function handler(
           },
         ],
         include: {
-          bids: true,
+          bids: {
+            orderBy: {
+              status: "asc",
+            },
+          },
         },
       });
       return res.status(200).json(data);

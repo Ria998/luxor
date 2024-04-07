@@ -1,12 +1,23 @@
 interface ButtonProps {
   className?: string;
   children: JSX.Element | string;
-  clickHandler?: () => void;
+  onClick?: () => void;
+  disabled?: boolean;
 }
 
-export const Button = ({ className, children, clickHandler }: ButtonProps) => {
+export const Button = ({
+  className,
+  children,
+  onClick,
+  disabled,
+}: ButtonProps) => {
   return (
-    <button type="button" onClick={clickHandler} className={className}>
+    <button
+      type="button"
+      onClick={onClick}
+      className={className}
+      disabled={disabled}
+    >
       {children}
     </button>
   );

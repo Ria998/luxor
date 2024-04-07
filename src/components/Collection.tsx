@@ -14,20 +14,22 @@ export const sharedStylesButtons = {
 
 interface CollectionProps {
   data: CollectionType;
-  deleteCollectionHandler: (id: number) => void;
-  deleteBidHandler: (id: number, collection_id: number) => void;
-  onAddBid: (id: number) => void;
+  onDeleteCollection: (id: number, name: string) => void;
+  onDeleteBid: (id: number, collection_id: number) => void;
+  onAddBidModal: (id: number) => void;
+  onEditBidModal: (id: number, price: string) => void;
   onBidStatus: (id: number, collection_id: number, status: statusType) => void;
-  onEditCollection: (data: CollectionType) => void;
+  onEditCollectionModal: (data: CollectionType) => void;
 }
 
 export const Collection = ({
   data,
-  deleteBidHandler,
-  deleteCollectionHandler,
-  onAddBid,
+  onDeleteBid,
+  onDeleteCollection,
+  onAddBidModal,
+  onEditBidModal,
   onBidStatus,
-  onEditCollection,
+  onEditCollectionModal,
 }: CollectionProps) => {
   return (
     <section className="bg-indigo-900 px-6 py-4 rounded">
@@ -50,7 +52,7 @@ export const Collection = ({
         <div className={sharedStylesButtons.buttonContStyle}>
           <Button
             className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.buttonIconCenter}`}
-            clickHandler={onEditCollection.bind(null, data)}
+            onClick={onEditCollectionModal.bind(null, data)}
           >
             <Image
               src="/edit.svg"
@@ -61,7 +63,7 @@ export const Collection = ({
             />
           </Button>
           <Button
-            clickHandler={deleteCollectionHandler.bind(null, data.id)}
+            onClick={onDeleteCollection.bind(null, data.id, data.name)}
             className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.buttonRed} ${sharedStylesButtons.buttonIconCenter}`}
           >
             <Image
@@ -74,7 +76,7 @@ export const Collection = ({
           </Button>
           <Button
             className={sharedStylesButtons.buttonStyle}
-            clickHandler={onAddBid.bind(null, data.id)}
+            onClick={onAddBidModal.bind(null, data.id)}
           >
             New Bid
           </Button>
@@ -89,10 +91,10 @@ export const Collection = ({
           {data.bids.map((data: BidType, i: number) => (
             <Bid
               data={data}
-              i={i}
               key={data.id}
               onBidStatus={onBidStatus}
-              deleteBidHandler={deleteBidHandler}
+              onDeleteBid={onDeleteBid}
+              onEditBidModal={onEditBidModal}
             />
           ))}
         </div>

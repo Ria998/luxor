@@ -21,6 +21,12 @@ export default async function handler(
     }
   } else if (req.method === "DELETE") {
     try {
+      await prisma.bids.deleteMany({
+        where: {
+          collection_id: Number(id),
+        },
+      });
+
       const data = await prisma.collections.delete({
         where: {
           id: Number(id),
