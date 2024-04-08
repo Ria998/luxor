@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { CollectionType, BidType, statusType } from "../types/types";
+import {
+  ContextTypes,
+  CollectionType,
+  BidType,
+  statusType,
+} from "../types/types";
 import AddCollection from "../components/forms/AddCollection";
 import EditCollection from "../components/forms/EditCollection";
 import EditBid from "../components/forms/EditBid";
@@ -12,26 +17,6 @@ import {
   stateEditBid,
   stateAddBid,
 } from "./helper";
-
-interface ContextTypes {
-  collections: CollectionType[];
-  setCollections: (prev: CollectionType[]) => void;
-  modal: boolean;
-  modalContent: JSX.Element;
-  modalCloseHandler: () => void;
-  addCollectionModal: () => void;
-  editCollectionModalHandler: (data: CollectionType) => void;
-  editBidModalHandler: (id: number, price: string) => void;
-  addBidModalHandler: (id: number) => void;
-  bidStatusHandler: (
-    id: number,
-    collection_id: number,
-    status: statusType
-  ) => void;
-  deleteCollectionHandler: (id: number, name: string) => void;
-  deleteBidHandler: (id: number, collection_id: number) => void;
-  loadingModal: boolean;
-}
 
 export const Context = React.createContext<ContextTypes | null>(null);
 
