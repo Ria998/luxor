@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { Context } from "../../store/ContextProvider";
 import { sharedStylesButtons } from "../Collection";
 
 interface WrapperProps {
@@ -7,6 +9,8 @@ interface WrapperProps {
 }
 
 export const Wrapper = ({ children, onSubmit, header }: WrapperProps) => {
+  const { loadingModal } = useContext(Context);
+
   return (
     <>
       <h3 className="text-center mb-4 text-xl">{header}</h3>
@@ -18,6 +22,7 @@ export const Wrapper = ({ children, onSubmit, header }: WrapperProps) => {
         <input
           type="submit"
           value="Submit"
+          disabled={loadingModal}
           className={`${sharedStylesButtons.buttonStyle} bg-indigo-700 mx-auto w-[102px] py-1.5 rounded cursor-pointer relative right-[9px]`}
         />
       </form>

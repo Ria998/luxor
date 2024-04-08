@@ -22,6 +22,7 @@ interface ContextTypes {
   ) => void;
   deleteCollectionHandler: (id: number, name: string) => void;
   deleteBidHandler: (id: number, collection_id: number) => void;
+  loadingModal: boolean;
 }
 
 export const Context = React.createContext<ContextTypes>({
@@ -41,6 +42,7 @@ export const Context = React.createContext<ContextTypes>({
   ) => {},
   deleteCollectionHandler: (id: number, name: string) => {},
   deleteBidHandler: (id: number, collection_id: number) => {},
+  loadingModal: false,
 });
 
 interface ContextProps {
@@ -53,6 +55,8 @@ const ContextProvider = ({ children }: ContextProps) => {
   const [modal, setModal] = useState(false);
   const [modalContent, setModalContent] = useState<JSX.Element>(<></>);
 
+  const [loadingModal, setLoadingModal] = useState(false);
+
   const modalCloseHandler = () => {
     setModal(false);
   };
@@ -63,6 +67,8 @@ const ContextProvider = ({ children }: ContextProps) => {
     quantity: string,
     price: string
   ) => {
+    setLoadingModal(true);
+
     try {
       const response = await fetch(`/api/collections`, {
         method: "POST",
@@ -94,6 +100,8 @@ const ContextProvider = ({ children }: ContextProps) => {
     } catch (error) {
       // setError(error instanceof Error ? error.message : String(error));
     }
+
+    setLoadingModal(false);
   };
 
   const addCollectionModal = () => {
@@ -108,6 +116,8 @@ const ContextProvider = ({ children }: ContextProps) => {
     quantity: number,
     price: string
   ) => {
+    setLoadingModal(true);
+
     try {
       const response = await fetch(`/api/collections/${id}`, {
         method: "PUT",
@@ -147,6 +157,7 @@ const ContextProvider = ({ children }: ContextProps) => {
     } catch (error) {
       // setError(error instanceof Error ? error.message : String(error));
     }
+    setLoadingModal(false);
   };
 
   const editCollectionModalHandler = (data: CollectionType) => {
@@ -157,6 +168,8 @@ const ContextProvider = ({ children }: ContextProps) => {
   };
 
   const editBidHandler = async (id: number, price: string) => {
+    setLoadingModal(true);
+
     try {
       const response = await fetch(`/api/bids/${id}`, {
         method: "PATCH",
@@ -197,6 +210,7 @@ const ContextProvider = ({ children }: ContextProps) => {
     } catch (error) {
       // setError(error instanceof Error ? error.message : String(error));
     }
+    setLoadingModal(false);
   };
 
   const editBidModalHandler = (id: number, price: string) => {
@@ -207,6 +221,7 @@ const ContextProvider = ({ children }: ContextProps) => {
   };
 
   const addBidHandler = async (id: number, price: string) => {
+    setLoadingModal(true);
     try {
       const response = await fetch(`/api/bids`, {
         method: "POST",
@@ -245,6 +260,7 @@ const ContextProvider = ({ children }: ContextProps) => {
     } catch (error) {
       // setError(error instanceof Error ? error.message : String(error));
     }
+    setLoadingModal(false);
   };
 
   const addBidModalHandler = (id: number) => {
@@ -257,6 +273,8 @@ const ContextProvider = ({ children }: ContextProps) => {
     collection_id: number,
     status: statusType
   ) => {
+    if (!confirm(`Set bid ${id} to ${status}?`)) return;
+
     try {
       const response = await fetch(`/api/bids/${id}/${collection_id}`, {
         method: "PATCH",
@@ -317,9 +335,6 @@ const ContextProvider = ({ children }: ContextProps) => {
 
       const data = await response.json();
 
-      // delete bid from state so UI gets updated
-      // state update dependent on previous version - so callback function format used
-      // remembering to delete from/mutate clones and never mutating the original state
       setCollections((previous) => {
         const index = previous.findIndex(
           (el: CollectionType) => el.id === data.id
@@ -348,9 +363,6 @@ const ContextProvider = ({ children }: ContextProps) => {
 
       const data = await response.json();
 
-      // delete bid from state so UI gets updated
-      // state update dependent on previous version - so callback function format used
-      // remembering to delete from/mutate clones and never mutating the original state
       setCollections((previous) => {
         const index = previous.findIndex(
           (el: CollectionType) => el.id === data.collection_id
@@ -392,6 +404,7 @@ const ContextProvider = ({ children }: ContextProps) => {
     bidStatusHandler,
     deleteCollectionHandler,
     deleteBidHandler,
+    loadingModal,
   };
 
   return <Context.Provider value={contextData}>{children}</Context.Provider>;

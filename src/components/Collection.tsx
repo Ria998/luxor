@@ -48,25 +48,13 @@ export const Collection = ({ data }: CollectionProps) => {
             className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.buttonIconCenter}`}
             onClick={editCollectionModalHandler.bind(null, data)}
           >
-            <Image
-              src="/edit.svg"
-              alt="close"
-              width={23}
-              height={23}
-              priority
-            />
+            <Image src="/edit.svg" alt="close" width={23} height={23} />
           </Button>
           <Button
             onClick={deleteCollectionHandler.bind(null, data.id, data.name)}
             className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.buttonRed} ${sharedStylesButtons.buttonIconCenter}`}
           >
-            <Image
-              src="/delete.svg"
-              alt="close"
-              width={25}
-              height={25}
-              priority
-            />
+            <Image src="/delete.svg" alt="close" width={25} height={25} />
           </Button>
           <Button
             className={sharedStylesButtons.buttonStyle}

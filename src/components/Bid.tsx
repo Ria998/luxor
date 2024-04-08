@@ -60,25 +60,13 @@ export const Bid = ({ data }: BidProps) => {
             onClick={editBidModalHandler.bind(null, data.id, data.price)}
             className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.buttonIconCenter}`}
           >
-            <Image
-              src="/edit.svg"
-              alt="close"
-              width={23}
-              height={23}
-              priority
-            />
+            <Image src="/edit.svg" alt="close" width={23} height={23} />
           </Button>
           <Button
             onClick={deleteBidHandler.bind(null, data.id, data.collection_id)}
             className={`${sharedStylesButtons.buttonStyle} ${sharedStylesButtons.buttonRed} ${sharedStylesButtons.buttonIconCenter}`}
           >
-            <Image
-              src="/delete.svg"
-              alt="close"
-              width={25}
-              height={25}
-              priority
-            />
+            <Image src="/delete.svg" alt="close" width={25} height={25} />
           </Button>
         </div>
       </div>

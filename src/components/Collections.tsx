@@ -1,8 +1,9 @@
-import { useEffect, useCallback, useContext } from "react";
+import { useEffect, useCallback, useContext, useState } from "react";
 import { Context } from "../store/ContextProvider";
 import { CollectionType } from "../types/types";
 import Collection from "./Collection";
 import Button from "../components/ui/Button";
+import Loading from "../components/ui/Loading";
 import { sharedStylesButtons } from "./Collection";
 import Modal from "./modal/Modal";
 
@@ -16,7 +17,11 @@ export const Collections = () => {
     addCollectionModal,
   } = useContext(Context);
 
+  const [loadingCollections, setLoadingCollections] = useState(false);
+
   const fetchCollections = useCallback(async () => {
+    setLoadingCollections(true);
+
     try {
       const response = await fetch("/api/collections");
 
@@ -38,6 +43,7 @@ export const Collections = () => {
     } catch (error) {
       // setError(error instanceof Error ? error.message : String(error));
     }
+    setLoadingCollections(false);
   }, []);
 
   useEffect(() => {
@@ -51,7 +57,6 @@ export const Collections = () => {
           {modalContent}
         </Modal>
       )}
-
       <div>
         <Button
           onClick={addCollectionModal}
@@ -60,11 +65,17 @@ export const Collections = () => {
           New Collection
         </Button>
 
-        <div className="flex flex-col gap-6">
-          {collections.map((data: CollectionType) => (
-            <Collection data={data} key={data.id} />
-          ))}
-        </div>
+        {loadingCollections && (
+          <Loading width={48} height={48} className="mx-auto mt-9" />
+        )}
+
+        {!loadingCollections && (
+          <div className="flex flex-col gap-6">
+            {collections.map((data: CollectionType) => (
+              <Collection data={data} key={data.id} />
+            ))}
+          </div>
+        )}
       </div>
     </>
   );

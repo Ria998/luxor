@@ -1,6 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
+import { Context } from "../../store/ContextProvider";
 import ReactPortal from "./ReactPortal";
 import Image from "next/image";
+import Loading from "../ui/Loading";
 
 interface ModalProps {
   children: JSX.Element;
@@ -9,6 +11,8 @@ interface ModalProps {
 }
 
 export const Modal = ({ children, isOpen, handleClose }: ModalProps) => {
+  const { loadingModal } = useContext(Context);
+
   useEffect(() => {
     const closeOnEscapeKey = (e: KeyboardEvent) =>
       e.key === "Escape" ? handleClose() : null;
@@ -40,11 +44,15 @@ export const Modal = ({ children, isOpen, handleClose }: ModalProps) => {
                 alt="close"
                 width={25}
                 height={25}
-                priority
               />
             </button>
           </div>
-          <div className="">{children}</div>
+          <div>
+            {children}
+            {loadingModal && (
+              <Loading width={42} height={42} className="mx-auto mt-5" />
+            )}
+          </div>
         </div>
       </>
     </ReactPortal>
