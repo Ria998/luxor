@@ -41,7 +41,7 @@ export const Collections = () => {
       );
       */
     } catch (error) {
-      // setError(error instanceof Error ? error.message : String(error));
+      console.log("Error: ", error);
     }
     setLoadingCollections(false);
   }, []);

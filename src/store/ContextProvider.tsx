@@ -98,7 +98,7 @@ const ContextProvider = ({ children }: ContextProps) => {
       });
       setModal(false);
     } catch (error) {
-      // setError(error instanceof Error ? error.message : String(error));
+      console.log("Error: ", error);
     }
 
     setLoadingModal(false);
@@ -155,7 +155,7 @@ const ContextProvider = ({ children }: ContextProps) => {
       });
       setModal(false);
     } catch (error) {
-      // setError(error instanceof Error ? error.message : String(error));
+      console.log("Error: ", error);
     }
     setLoadingModal(false);
   };
@@ -208,7 +208,7 @@ const ContextProvider = ({ children }: ContextProps) => {
 
       setModal(false);
     } catch (error) {
-      // setError(error instanceof Error ? error.message : String(error));
+      console.log("Error: ", error);
     }
     setLoadingModal(false);
   };
@@ -258,7 +258,7 @@ const ContextProvider = ({ children }: ContextProps) => {
       });
       setModal(false);
     } catch (error) {
-      // setError(error instanceof Error ? error.message : String(error));
+      console.log("Error: ", error);
     }
     setLoadingModal(false);
   };
@@ -318,7 +318,7 @@ const ContextProvider = ({ children }: ContextProps) => {
       });
       setModal(false);
     } catch (error) {
-      // setError(error instanceof Error ? error.message : String(error));
+      console.log("Error: ", error);
     }
   };
 
@@ -349,7 +349,7 @@ const ContextProvider = ({ children }: ContextProps) => {
         return shallowClone;
       });
     } catch (error) {
-      // setError(error instanceof Error ? error.message : String(error));
+      console.log("Error: ", error);
     }
   };
 
@@ -387,7 +387,7 @@ const ContextProvider = ({ children }: ContextProps) => {
         return shallowClone;
       });
     } catch (error) {
-      // setError(error instanceof Error ? error.message : String(error));
+      console.log("Error: ", error);
     }
   };
 
