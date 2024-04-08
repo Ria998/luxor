@@ -25,6 +25,7 @@ export const EditCollection = ({
   );
   const [quantity, setQuantity] = useState(values ? values.quantity : 0);
   const [price, setPrice] = useState(values ? values.price : "");
+  const [error, setError] = useState("");
 
   const nameChangeHandler = (event: React.FormEvent<HTMLInputElement>) => {
     setName(event.currentTarget.value);
@@ -46,6 +47,16 @@ export const EditCollection = ({
 
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
+
+    setError("");
+
+    if (!name || !description || !quantity || !price) {
+      setError(
+        "Please eneter a string for name and description and a number for quantity and price."
+      );
+      return;
+    }
+
     onEditCollection(values.id, name, description, quantity, price);
   };
 
@@ -93,6 +104,7 @@ export const EditCollection = ({
             decimals={true}
           />
         </div>
+        {error && <p className="text-red-500 text-sm">{error}</p>}
       </>
     </Wrapper>
   );

@@ -17,6 +17,7 @@ export const AddCollection = ({ onAddCollection }: AddCollectionProps) => {
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState("");
+  const [error, setError] = useState("");
 
   const nameChangeHandler = (event: React.FormEvent<HTMLInputElement>) => {
     setName(event.currentTarget.value);
@@ -38,6 +39,16 @@ export const AddCollection = ({ onAddCollection }: AddCollectionProps) => {
 
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
+
+    setError("");
+
+    if (!name || !description || !quantity || !price) {
+      setError(
+        "Please eneter a string for name and description and a number for quantity and price."
+      );
+      return;
+    }
+
     onAddCollection(name, description, quantity, price);
   };
 
@@ -81,6 +92,7 @@ export const AddCollection = ({ onAddCollection }: AddCollectionProps) => {
             decimals={true}
           />
         </div>
+        {error && <p className="text-red-500 text-sm">{error}</p>}
       </>
     </Wrapper>
   );
