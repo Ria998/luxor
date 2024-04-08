@@ -23,22 +23,10 @@ export const Collections = () => {
 
     try {
       const response = await fetch("/api/collections");
-
       if (!response.ok)
         throw new Error("Error retrieving collections. Please try again.");
-
       const data = await response.json();
-
       setCollections(data);
-
-      //
-      /*
-      setCollections(
-        JSON.parse(
-          `[{"id":2,"name":"Antique Toys","description":"Antique Toys","quantity":21,"price":"111221","bids":[{"id":5,"collection_id":2,"price":"21314","status":"Pending","user_id":1},{"id":6,"collection_id":2,"price":"22323","status":"Pending","user_id":2}]},{"id":1,"name":"Rare Jerseys","description":"Rare Jerseys","quantity":136,"price":"123","bids":[{"id":3,"collection_id":1,"price":"133","status":"Pending","user_id":1},{"id":4,"collection_id":1,"price":"155","status":"Pending","user_id":2}]}]`
-        )
-      );
-      */
     } catch (error) {
       console.log("Error: ", error);
     }
