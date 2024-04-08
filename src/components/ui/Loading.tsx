@@ -15,6 +15,7 @@ export const Loading = ({ width, height, className }: LoadingProps) => {
         width={width}
         height={height}
         className={`${className} animate-spin`}
+        priority
       />
     </div>
   );

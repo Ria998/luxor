@@ -25,25 +25,7 @@ interface ContextTypes {
   loadingModal: boolean;
 }
 
-export const Context = React.createContext<ContextTypes>({
-  collections: [],
-  setCollections: (prev: CollectionType[]) => {},
-  modal: false,
-  modalContent: <></>,
-  modalCloseHandler: () => {},
-  addCollectionModal: () => {},
-  editCollectionModalHandler: (data: CollectionType) => {},
-  editBidModalHandler: (id: number, price: string) => {},
-  addBidModalHandler: (id: number) => {},
-  bidStatusHandler: (
-    id: number,
-    collection_id: number,
-    status: statusType
-  ) => {},
-  deleteCollectionHandler: (id: number, name: string) => {},
-  deleteBidHandler: (id: number, collection_id: number) => {},
-  loadingModal: false,
-});
+export const Context = React.createContext<ContextTypes | null>(null);
 
 interface ContextProps {
   children: JSX.Element;
@@ -221,7 +203,6 @@ const ContextProvider = ({ children }: ContextProps) => {
   };
 
   const addBidHandler = async (id: number, price: string) => {
-    setLoadingModal(true);
     try {
       const response = await fetch(`/api/bids`, {
         method: "POST",
@@ -260,7 +241,6 @@ const ContextProvider = ({ children }: ContextProps) => {
     } catch (error) {
       console.log("Error: ", error);
     }
-    setLoadingModal(false);
   };
 
   const addBidModalHandler = (id: number) => {
