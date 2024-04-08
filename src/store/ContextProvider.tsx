@@ -4,6 +4,14 @@ import AddCollection from "../components/forms/AddCollection";
 import EditCollection from "../components/forms/EditCollection";
 import EditBid from "../components/forms/EditBid";
 import AddBid from "../components/forms/AddBid";
+import {
+  stateBidStatus,
+  stateDeleteCollection,
+  stateDeleteBid,
+  stateEditCollection,
+  stateEditBid,
+  stateAddBid,
+} from "./helper";
 
 interface ContextTypes {
   collections: CollectionType[];
@@ -120,20 +128,7 @@ const ContextProvider = ({ children }: ContextProps) => {
       const data = await response.json();
 
       setCollections((previous) => {
-        const shallowClone = [...previous];
-
-        const index = shallowClone.findIndex(
-          (el: CollectionType) => el.id === data.id
-        );
-
-        if (index === -1) return previous;
-
-        shallowClone[index].name = data.name;
-        shallowClone[index].price = data.price;
-        shallowClone[index].quantity = data.quantity;
-        shallowClone[index].description = data.description;
-
-        return shallowClone;
+        return stateEditCollection(previous, data);
       });
       setModal(false);
     } catch (error) {
@@ -168,26 +163,8 @@ const ContextProvider = ({ children }: ContextProps) => {
       const data = await response.json();
 
       setCollections((previous) => {
-        const shallowClone = [...previous];
-
-        const index = shallowClone.findIndex(
-          (el: CollectionType) => el.id === data.collection_id
-        );
-
-        if (index === -1) return previous;
-
-        const bidsClone = [...shallowClone[index].bids];
-
-        const indexBids = bidsClone.findIndex(
-          (el: BidType) => el.id === data.id
-        );
-
-        bidsClone[indexBids].price = data.price;
-
-        shallowClone[index].bids = bidsClone;
-        return shallowClone;
+        return stateEditBid(previous, data);
       });
-
       setModal(false);
     } catch (error) {
       console.log("Error: ", error);
@@ -221,21 +198,7 @@ const ContextProvider = ({ children }: ContextProps) => {
       const data: BidType = await response.json();
 
       setCollections((previous) => {
-        const index = previous.findIndex(
-          (el: CollectionType) => el.id === data.collection_id
-        );
-
-        if (index === -1) return previous;
-
-        const shallowClone = [...previous];
-
-        const bidsClone = [...shallowClone[index].bids];
-
-        bidsClone.unshift(data);
-
-        shallowClone[index].bids = bidsClone;
-
-        return shallowClone;
+        return stateAddBid(previous, data);
       });
       setModal(false);
     } catch (error) {
@@ -272,29 +235,7 @@ const ContextProvider = ({ children }: ContextProps) => {
       const data = await response.json();
 
       setCollections((previous) => {
-        const index = previous.findIndex(
-          (el: CollectionType) => el.id === data.collection_id
-        );
-
-        if (index === -1) return previous;
-
-        const shallowClone = [...previous];
-
-        const bidsClone = [...shallowClone[index].bids];
-
-        const indexBids = bidsClone.findIndex(
-          (el: BidType) => el.id === data.id
-        );
-
-        if (status === "Accepted") {
-          bidsClone.forEach((el) => {
-            el.status = "Rejected";
-          });
-        }
-
-        bidsClone[indexBids].status = data.status;
-        shallowClone[index].bids = bidsClone;
-        return shallowClone;
+        return stateBidStatus(previous, data, status);
       });
       setModal(false);
     } catch (error) {
@@ -316,17 +257,7 @@ const ContextProvider = ({ children }: ContextProps) => {
       const data = await response.json();
 
       setCollections((previous) => {
-        const index = previous.findIndex(
-          (el: CollectionType) => el.id === data.id
-        );
-
-        if (index === -1) return previous;
-
-        const shallowClone = [...previous];
-
-        shallowClone.splice(index, 1);
-
-        return shallowClone;
+        return stateDeleteCollection(previous, data);
       });
     } catch (error) {
       console.log("Error: ", error);
@@ -344,27 +275,7 @@ const ContextProvider = ({ children }: ContextProps) => {
       const data = await response.json();
 
       setCollections((previous) => {
-        const index = previous.findIndex(
-          (el: CollectionType) => el.id === data.collection_id
-        );
-
-        if (index === -1) return previous;
-
-        const shallowClone = [...previous];
-
-        const bidIndexDelete = (
-          shallowClone[index] as CollectionType
-        ).bids.findIndex((el: BidType) => el.id === data.id);
-
-        if (bidIndexDelete === -1) return previous;
-
-        const cloneBids = [...(shallowClone[index] as CollectionType).bids];
-
-        cloneBids.splice(bidIndexDelete, 1);
-
-        (shallowClone[index] as CollectionType).bids = cloneBids;
-
-        return shallowClone;
+        return stateDeleteBid(previous, data);
       });
     } catch (error) {
       console.log("Error: ", error);
