@@ -29,5 +29,3 @@ export const Wrapper = ({ children, onSubmit, header }: WrapperProps) => {
     </>
   );
 };
-
-export default Wrapper;

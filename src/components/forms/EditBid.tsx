@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Wrapper } from "./Wrapper";
-import { Label } from "../ui/forms/Label";
-import { Input } from "../ui/forms/Input";
+import { Wrapper } from ".";
+import { Label, Input } from "../ui/forms";
 
 interface EditBidProps {
   onEditBid: (price: string) => void;
@@ -48,5 +47,3 @@ export const EditBid = ({ onEditBid, initialPrice }: EditBidProps) => {
     </Wrapper>
   );
 };
-
-export default EditBid;

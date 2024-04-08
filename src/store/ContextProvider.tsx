@@ -5,10 +5,12 @@ import {
   BidType,
   statusType,
 } from "../types/types";
-import AddCollection from "../components/forms/AddCollection";
-import EditCollection from "../components/forms/EditCollection";
-import EditBid from "../components/forms/EditBid";
-import AddBid from "../components/forms/AddBid";
+import {
+  AddCollection,
+  EditCollection,
+  EditBid,
+  AddBid,
+} from "../components/forms";
 import {
   stateBidStatus,
   stateDeleteCollection,
@@ -18,7 +20,7 @@ import {
   stateAddBid,
 } from "./helper";
 
-export const Context = React.createContext<ContextTypes | null>(null);
+export const Context = React.createContext<ContextTypes>(null!);
 
 interface ContextProps {
   children: JSX.Element;

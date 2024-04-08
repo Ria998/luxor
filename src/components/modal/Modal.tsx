@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from "react";
 import { Context } from "../../store/ContextProvider";
 import ReactPortal from "./ReactPortal";
 import Image from "next/image";
-import Loading from "../ui/Loading";
+import { Loading } from "../../components/ui";
 
 interface ModalProps {
   children: JSX.Element;

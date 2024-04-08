@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Wrapper } from "./Wrapper";
-import { Label } from "../ui/forms/Label";
-import { Input } from "../ui/forms/Input";
+import { Wrapper } from ".";
+import { Label, Input } from "../ui/forms";
 
 interface AddCollectionProps {
   onAddCollection: (
@@ -97,5 +96,3 @@ export const AddCollection = ({ onAddCollection }: AddCollectionProps) => {
     </Wrapper>
   );
 };
-
-export default AddCollection;

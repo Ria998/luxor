@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Wrapper } from "./Wrapper";
-import { Label } from "../ui/forms/Label";
-import { Input } from "../ui/forms/Input";
+import { Wrapper } from ".";
+import { Label, Input } from "../ui/forms";
 
 interface AddBidProps {
   onAddBid: (price: string) => void;
@@ -46,5 +45,3 @@ export const AddBid = ({ onAddBid }: AddBidProps) => {
     </Wrapper>
   );
 };
-
-export default AddBid;

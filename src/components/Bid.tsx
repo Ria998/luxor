@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Context } from "../store/ContextProvider";
 import { BidType } from "../types/types";
-import Button from "../components/ui/Button";
+import { Button } from "../components/ui";
 import { sharedStylesButtons } from "./Collection";
 import Image from "next/image";
 

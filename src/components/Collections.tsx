@@ -2,8 +2,7 @@ import { useEffect, useCallback, useContext, useState } from "react";
 import { Context } from "../store/ContextProvider";
 import { CollectionType } from "../types/types";
 import Collection from "./Collection";
-import Button from "../components/ui/Button";
-import Loading from "../components/ui/Loading";
+import { Button, Loading } from "../components/ui";
 import { sharedStylesButtons } from "./Collection";
 import Modal from "./modal/Modal";
 
